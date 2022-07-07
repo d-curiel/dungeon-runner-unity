@@ -22,8 +22,19 @@ public class UIManagerController : MonoBehaviour
     Text scoreTextDefeat;
     [SerializeField]
     Text timeTextDefeat;
+
+    [SerializeField]
+    Text scoreTextMax;
+    [SerializeField]
+    Text timeTextMax;
+    [SerializeField]
+    Text newMaxScore;
+    [SerializeField]
+    Text newMaxTime;
     [SerializeField]
     Image defeatPanel;
+    [SerializeField]
+    Image instructionsPanel;
     private void Awake()
     {
         Instance = this;
@@ -31,7 +42,8 @@ public class UIManagerController : MonoBehaviour
 
     private void Start()
     {
-
+        Time.timeScale = 0f;
+        instructionsPanel.gameObject.SetActive(true);
     }
     private void FixedUpdate()
     {
@@ -55,7 +67,11 @@ public class UIManagerController : MonoBehaviour
         timeTextDefeat.text = playerData.CurrentDistance.ToString("F2");
         playerData.MaxScore = playerData.MaxScore < playerData.CurrentScore ? playerData.CurrentScore : playerData.MaxScore;
         playerData.MaxDistance = playerData.MaxDistance < playerData.CurrentDistance ? playerData.CurrentDistance : playerData.MaxDistance;
-        pausePanel.gameObject.SetActive(true);
+        scoreTextMax.text = playerData.MaxScore.ToString();
+        timeTextMax.text = playerData.MaxDistance.ToString("F2");
+        defeatPanel.gameObject.SetActive(true);
+        newMaxScore.gameObject.SetActive(playerData.MaxScore == playerData.CurrentScore);
+        newMaxTime.gameObject.SetActive(playerData.MaxDistance == playerData.CurrentDistance);
 
     }
 
@@ -69,6 +85,13 @@ public class UIManagerController : MonoBehaviour
         {
             StartCoroutine(ReturnToGame());
         }
+    }
+
+    public void InitGame()
+    {
+        instructionsPanel.gameObject.SetActive(false);
+        StartCoroutine(ReturnToGame());
+
     }
 
     public void QuitGame()

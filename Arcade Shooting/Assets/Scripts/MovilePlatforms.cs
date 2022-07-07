@@ -14,18 +14,22 @@ public class MovilePlatforms : MonoBehaviour
     Vector3 targetPosition;
     private void Start()
     {
-        targetPosition = transform.position;
+
+        targetPosition = (pointB.transform.position - transform.position).normalized;
     }
     void FixedUpdate()
     {
-        if (System.Math.Round(gameObject.transform.position.z, 2)  == System.Math.Round(pointA.transform.position.z, 2) )
+        if(Vector3.Distance(pointA.transform.position, gameObject.transform.position) < 0.2f)
         {
             targetPosition = (pointB.transform.position - transform.position).normalized;
+
         }
-        else if (System.Math.Round(gameObject.transform.position.z, 2) == System.Math.Round(pointB.transform.position.z, 2))
+        else if (Vector3.Distance(pointB.transform.position, gameObject.transform.position) < 0.2f)
         {
+
             targetPosition = (pointA.transform.position - transform.position).normalized;
         }
-        transform.Translate(targetPosition * 1.5f * Time.deltaTime);
+
+        transform.Translate(targetPosition * 5f * Time.deltaTime);
     }
 }
